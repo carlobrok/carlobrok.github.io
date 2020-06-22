@@ -2,12 +2,20 @@
 Monokai style - ported by Luigi Maselli - http://grigio.org
 */
 
-.hljs {
-  display: block;
+code {
   overflow-x: auto;
-  padding: 0.5em;
+  padding: 0.1em 0.4em;
   background: #272822;
   color: #ddd;
+  display: inline-flex;
+}
+
+.hljs {
+  display: block;
+  padding: 1em;
+  /*overflow-x: auto;
+  background: #272822;
+  color: #ddd;*/
 }
 
 .hljs-tag,
