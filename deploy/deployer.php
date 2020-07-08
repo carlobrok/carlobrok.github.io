@@ -75,7 +75,7 @@ if (!empty($pTOKEN) && isset($_SERVER["HTTP_X_HUB_SIGNATURE"]) && $token !== has
 } elseif (!empty($pTOKEN) && !isset($_SERVER["HTTP_X_HUB_SIGNATURE"]) && !isset($_SERVER["HTTP_X_GITLAB_TOKEN"]) && !isset($_GET["token"])) {
     forbid($file, "No token detected");
 } else {
-    shell_exec("./update.sh")
+    shell_exec("./update.sh");
 }
 
 // close the log
