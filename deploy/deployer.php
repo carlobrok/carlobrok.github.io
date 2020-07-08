@@ -76,6 +76,7 @@ if (!empty($pTOKEN) && isset($_SERVER["HTTP_X_HUB_SIGNATURE"]) && $token !== has
     forbid($file, "No token detected");
 } else {
     shell_exec("./update.sh");
+    echo "Successfully updated repo";
 }
 
 // close the log
