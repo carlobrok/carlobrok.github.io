@@ -108,6 +108,7 @@ function run() {
 }
 
 try {
+    echo isset($_POST['payload']);
     if (!isset($_POST['payload'])) {
         echo "Works fine.";
     } else {
