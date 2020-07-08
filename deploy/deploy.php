@@ -1,5 +1,5 @@
 <?php
-define("TOKEN", file_get_contents(".token"));                                       // The secret token to add as a GitHub or GitLab secret, or otherwise as https://www.example.com/?token=secret-token
+//define("TOKEN", "hello");                                       // The secret token to add as a GitHub or GitLab secret, or otherwise as https://www.example.com/?token=secret-token
 define("REMOTE_REPOSITORY", "git@github.com:carlobrok/website.git");   // The SSH URL to your repository
 define("DIR", "/home/ubuntu/website");                          // The path to your repostiroy; this must begin with a forward slash (/)
 define("BRANCH", "refs/heads/master");                                 // The branch route

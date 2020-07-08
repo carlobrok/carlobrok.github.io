@@ -6,6 +6,8 @@ $time    = time();
 $token   = false;
 $sha     = false;
 $DIR     = preg_match("/\/$/", DIR) ? DIR : DIR . "/";
+$TOKEN   = file_get_content('.token')
+
 
 // retrieve the token
 if (!$token && isset($_SERVER["HTTP_X_HUB_SIGNATURE"])) {
@@ -57,16 +59,16 @@ function forbid($file, $reason) {
 }
 
 // Check for a GitHub signature
-if (!empty(TOKEN) && isset($_SERVER["HTTP_X_HUB_SIGNATURE"]) && $token !== hash_hmac($algo, $content, TOKEN)) {
+if (!empty($TOKEN) && isset($_SERVER["HTTP_X_HUB_SIGNATURE"]) && $token !== hash_hmac($algo, $content, $TOKEN)) {
     forbid($file, "X-Hub-Signature does not match TOKEN");
 // Check for a GitLab token
-} elseif (!empty(TOKEN) && isset($_SERVER["HTTP_X_GITLAB_TOKEN"]) && $token !== TOKEN) {
+} elseif (!empty($TOKEN) && isset($_SERVER["HTTP_X_GITLAB_TOKEN"]) && $token !== $TOKEN) {
     forbid($file, "X-GitLab-Token does not match TOKEN");
 // Check for a $_GET token
-} elseif (!empty(TOKEN) && isset($_GET["token"]) && $token !== TOKEN) {
+} elseif (!empty($TOKEN) && isset($_GET["token"]) && $token !== $TOKEN) {
     forbid($file, "\$_GET[\"token\"] does not match TOKEN");
 // if none of the above match, but a token exists, exit
-} elseif (!empty(TOKEN) && !isset($_SERVER["HTTP_X_HUB_SIGNATURE"]) && !isset($_SERVER["HTTP_X_GITLAB_TOKEN"]) && !isset($_GET["token"])) {
+} elseif (!empty($TOKEN) && !isset($_SERVER["HTTP_X_HUB_SIGNATURE"]) && !isset($_SERVER["HTTP_X_GITLAB_TOKEN"]) && !isset($_GET["token"])) {
     forbid($file, "No token detected");
 } else {
     // check if pushed branch matches branch specified in config
