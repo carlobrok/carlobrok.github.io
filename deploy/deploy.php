@@ -78,7 +78,8 @@ if (!empty($pTOKEN) && isset($_SERVER["HTTP_X_HUB_SIGNATURE"]) && $token !== has
   echo "pull repo";
   ob_start();
   passthru("./update.sh");
-  $output = ob_end_contents();
+  $output = ob_get_contents();
+  ob_end_clean();
   echo $output;
   echo "Successfully updated repo";
 }
