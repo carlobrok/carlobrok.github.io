@@ -75,7 +75,11 @@ if (!empty($pTOKEN) && isset($_SERVER["HTTP_X_HUB_SIGNATURE"]) && $token !== has
 } elseif (!empty($pTOKEN) && !isset($_SERVER["HTTP_X_HUB_SIGNATURE"]) && !isset($_SERVER["HTTP_X_GITLAB_TOKEN"]) && !isset($_GET["token"])) {
     forbid($file, "No token detected");
 } else {
-    shell_exec("./update.sh");
+  ob_start();
+  passthru("./update.sh");
+  $output = ob_end_contents();
+  echo $output,
+  echo "Successfully updated repo";
 }
 
 // close the log

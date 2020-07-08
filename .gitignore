@@ -1,3 +1,3 @@
 .htaccess
-.token
+token.txt
 deploy/config.json
