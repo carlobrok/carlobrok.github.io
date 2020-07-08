@@ -109,12 +109,11 @@ function run() {
 
 
 try {
-    echo isset($_POST['payload']);
-    if (!isset($_POST['payload'])) {
-        echo "Works fine.";
-    } else {
-        run();
-    }
+    if ($_POST['payload']) {
+      run();
+    } else
+      echo "Works fine.";
+    }    
 } catch ( Exception $e ) {
     $msg = $e->getMessage();
     mail($error_mail, $msg, ''.$e);
