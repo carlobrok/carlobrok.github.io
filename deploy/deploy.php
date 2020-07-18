@@ -163,10 +163,14 @@ if (!defined('EMAIL_ON_ERROR')) define('EMAIL_ON_ERROR', false);
 
 // ===========================================[ Configuration end ]===
 
-// If there's authorization error, set the correct HTTP header.
-if (!isset($_GET['sat']) || $_GET['sat'] !== SECRET_ACCESS_TOKEN || SECRET_ACCESS_TOKEN === 'BetterChangeMeNowOrSufferTheConsequences') {
-	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden', true, 403);
+$content = file_get_contents("php://input");
+$token = false;
+
+if (!$token && isset($_SERVER["HTTP_X_HUB_SIGNATURE"])) {
+    list($algo, $token) = explode("=", $_SERVER["HTTP_X_HUB_SIGNATURE"], 2) + array("", "");
 }
+
+
 ob_start();
 ?>
 <!DOCTYPE html>
@@ -177,7 +181,7 @@ ob_start();
 	<title>Simple PHP Git deploy script</title>
 	<style>
 body { padding: 0 1em; background: #222; color: #fff; }
-h2, .error { color: #c33; }
+.error { color: #c33; }
 .prompt { color: #6be234; }
 .command { color: #729fcf; }
 .output { color: #999; }
@@ -185,16 +189,21 @@ h2, .error { color: #c33; }
 </head>
 <body>
 <?php
-if (!isset($_GET['sat']) || $_GET['sat'] !== SECRET_ACCESS_TOKEN) {
+/*if (!isset($_GET['sat']) || $_GET['sat'] !== SECRET_ACCESS_TOKEN) {
 	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden', true, 403);
-	die('<h2>ACCESS DENIED!</h2>');
-}
-if (SECRET_ACCESS_TOKEN === 'BetterChangeMeNowOrSufferTheConsequences') {
+	die('<h2>Access Denied!</h2>');
+}*/
+
+// If there's authorization error, set the correct HTTP header.
+if ((!empty(SECRET_ACCESS_TOKEN) && isset($_SERVER["HTTP_X_HUB_SIGNATURE"]) && $token !== hash_hmac($algo, $content, SECRET_ACCESS_TOKEN)) || !isset($_SERVER["HTTP_X_HUB_SIGNATURE"]) ) {
 	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden', true, 403);
-	die("<h2>You're suffering the consequences!<br>Change the SECRET_ACCESS_TOKEN from it's default value!</h2>");
+	die('<h2>Access Denied!</h2>');
 }
+
 ?>
 <pre>
+
+Accepted access key.
 
 Checking the environment ...
 
