@@ -250,14 +250,14 @@ $commands = array();
 
 
 if (is_dir(TARGET_DIR)) {
-  $commands = sprintf(
+  $commands[] = sprintf(
     'cd %s'
     , TARGET_DIR
   );
-  $commands = sprintf(
+  $commands[] = sprintf(
     'git reset --hard'
   );
-  $commands = sprintf(
+  $commands[] = sprintf(
     'git pull'
   );
 }
